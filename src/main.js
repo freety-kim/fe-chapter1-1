@@ -1,4 +1,4 @@
-const LoginPage = () => `
+const LoginPage = () => `const
 <div class='page login-page-v2'>
   <div class='login-container-v2'>
     <div class='login-header'>
@@ -62,7 +62,7 @@ const DashboardPage = () => `
       </div>
 
       <nav class='sidebar-nav-v2'>
-        <button class='nav-item-v2 active'>
+        <button id='dashBrdButton' class='nav-item-v2 active'>
           <svg
             width='20'
             height='20'
@@ -80,7 +80,7 @@ const DashboardPage = () => `
           </svg>
           <span>대시보드</span>
         </button>
-        <button class='nav-item-v2'>
+        <button id='resultButton' class='nav-item-v2' >
           <svg
             width='20'
             height='20'
@@ -99,7 +99,7 @@ const DashboardPage = () => `
           </svg>
           <span>검사 결과 보기</span>
         </button>
-        <button class='nav-item-v2'>
+        <button id='viewPfButton' class='nav-item-v2'>
           <svg
             width='20'
             height='20'
@@ -681,7 +681,7 @@ const TestResultViewPage = () => `
       </div>
 
       <nav class="sidebar-nav-v2">
-        <button class="nav-item-v2">
+        <button id='dashBrdButton' class="nav-item-v2">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"></rect>
             <rect x="14" y="3" width="7" height="7"></rect>
@@ -690,7 +690,7 @@ const TestResultViewPage = () => `
           </svg>
           <span>대시보드</span>
         </button>
-        <button class="nav-item-v2 active">
+        <button id='resultButton' class="nav-item-v2 active">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0 -2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2V8z"></path>
             <path d="M14 2v6h6"></path>
@@ -700,7 +700,7 @@ const TestResultViewPage = () => `
           </svg>
           <span>검사 결과 보기</span>
         </button>
-        <button class="nav-item-v2">
+        <button id='viewPfButton' class="nav-item-v2">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
           </svg>
@@ -1695,7 +1695,7 @@ const ProfilePage = () => `
       </div>
 
       <nav class='sidebar-nav-v2'>
-        <button class='nav-item-v2'>
+        <button id='dashBrdButton' class='nav-item-v2'>
           <svg
             width='20'
             height='20'
@@ -1713,7 +1713,7 @@ const ProfilePage = () => `
           </svg>
           <span>대시보드</span>
         </button>
-        <button class='nav-item-v2'>
+        <button id='resultButton' class='nav-item-v2'>
           <svg
             width='20'
             height='20'
@@ -1732,7 +1732,7 @@ const ProfilePage = () => `
           </svg>
           <span>검사 결과 보기</span>
         </button>
-        <button class='nav-item-v2'>
+        <button id='viewPfButton' class='nav-item-v2'>
           <svg
             width='20'
             height='20'
@@ -1964,3 +1964,130 @@ document.body.innerHTML = `
   ${NotFoundPage()}
   ${ProfilePage()}
 `;
+
+const appDiv = window.document.defaultView;
+const dashBrdButton = document.getElementById('dashBrdButton');
+const resultButton = document.getElementById('resultButton');
+const viewPfButton = document.getElementById('viewPfButton');
+const PATH_DB = '/dashBoard';
+const PATH_RV = '/testResultView';
+const PATH_PF = '/profile';
+
+function addEventListenerAll() {
+  const dashBrdButton = document.getElementById('dashBrdButton');
+  const resultButton = document.getElementById('resultButton');
+  const viewPfButton = document.getElementById('viewPfButton');
+
+  dashBrdButton.addEventListener('click', function () {
+    //alert('dashboard');
+    window.history.pushState({ path: PATH_DB }, '', PATH_DB);
+
+    renderPageContent(PATH_DB);
+  });
+
+  resultButton.addEventListener('click', function () {
+    //alert('rslt');
+    window.history.pushState({ path: PATH_RV }, '', PATH_RV);
+
+    renderPageContent(PATH_RV);
+  });
+
+  viewPfButton.addEventListener('click', function () {
+    //alert('pf');
+    window.history.pushState({ path: PATH_PF }, '', PATH_PF);
+
+    renderPageContent(PATH_PF);
+  });
+}
+
+function renderPageContent(path) {
+  document.body.innerHTML = ''; // 기존 내용을 초기화
+
+  if (path === PATH_DB) {
+    // 대쉬보드
+    document.body.innerHTML = `
+                      ${DashboardPage()}
+                    `;
+
+    document.title = '과제 - ' + '대쉬보드';
+
+    /*
+    const resultButton = document.getElementById('resultButton');
+
+    resultButton.addEventListener('click', function () {
+      alert('rslt');
+      window.history.pushState({ path: PATH_RV }, '', PATH_RV);
+
+      renderPageContent(PATH_RV);
+    });
+    */
+
+    addEventListenerAll();
+  } else if (path === PATH_RV) {
+    // 검사결과보기
+    document.body.innerHTML = `
+                      ${TestResultViewPage()}
+                    `;
+
+    document.title = '과제 - ' + '결과보기';
+
+    addEventListenerAll();
+  } else if (path === PATH_PF) {
+    // 프로필
+    document.body.innerHTML = `
+                      ${ProfilePage()}
+                    `;
+
+    document.title = '과제 - ' + '프로필';
+
+    addEventListenerAll();
+  } else if (path === '/' || path === '/index.html') {
+    // 메인 경로일 때 보여줄 HTML
+    document.body.innerHTML = `
+
+      ${LoginPage()}
+      ${DashboardPage()}
+      ${TestResultViewPage()}
+      ${NotFoundPage()}
+      ${ProfilePage()}
+    `;
+
+    document.title = '홈';
+  } else {
+    // 404 Not Found 처리
+    appDiv.innerHTML = `
+            <h2>404 - 페이지를 찾을 수 없습니다.</h2>
+            <p>요청하신 ${path} 경로가 존재하지 않습니다.</p>
+        `;
+    document.title = '404';
+  }
+
+  //addEventListenerAll();
+}
+
+dashBrdButton.addEventListener('click', function () {
+  //alert('dashboard');
+  window.history.pushState({ path: PATH_DB }, '', PATH_DB);
+
+  renderPageContent(PATH_DB);
+});
+
+resultButton.addEventListener('click', function () {
+  //alert('rslt');
+  window.history.pushState({ path: PATH_RV }, '', PATH_RV);
+
+  renderPageContent(PATH_RV);
+});
+
+viewPfButton.addEventListener('click', function () {
+  //alert('pf');
+  window.history.pushState({ path: PATH_PF }, '', PATH_PF);
+
+  renderPageContent(PATH_PF);
+});
+
+window.addEventListener('popstate', function () {
+  // 현재 URL의 경로를 가져와서 렌더링 함수를 다시 호출합니다.
+  const currentPath = window.location.pathname;
+  renderPageContent(currentPath);
+});
